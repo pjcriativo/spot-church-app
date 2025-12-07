@@ -1,15 +1,20 @@
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
+import { AppThemeProvider } from './theme/theme'
+import { GlobalStyles } from './theme/GlobalStyles'
 import MainLayout from './layout/MainLayout'
 import AppRoutes from './routes/AppRoutes'
 import './App.css'
 
 function App() {
     return (
-        <Router>
-            <MainLayout>
-                <AppRoutes />
-            </MainLayout>
-        </Router>
+        <AppThemeProvider>
+            <GlobalStyles />
+            <BrowserRouter>
+                <MainLayout>
+                    <AppRoutes />
+                </MainLayout>
+            </BrowserRouter>
+        </AppThemeProvider>
     )
 }
 

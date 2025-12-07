@@ -1,7 +1,5 @@
 import { ReactNode } from 'react'
 import styled from 'styled-components'
-import { AppThemeProvider } from '../theme/theme'
-import { GlobalStyles } from '../theme/GlobalStyles'
 import BottomNav from '../components/navigation/BottomNav'
 import Sidebar from '../components/navigation/Sidebar'
 
@@ -22,20 +20,17 @@ const MainContent = styled.main`
 `
 
 interface MainLayoutProps {
-    children: ReactNode
+  children: ReactNode
 }
 
 export default function MainLayout({ children }: MainLayoutProps) {
-    return (
-        <AppThemeProvider>
-            <GlobalStyles />
-            <LayoutContainer>
-                <Sidebar />
-                <MainContent>
-                    {children}
-                </MainContent>
-                <BottomNav />
-            </LayoutContainer>
-        </AppThemeProvider>
-    )
+  return (
+    <LayoutContainer>
+      <Sidebar />
+      <MainContent>
+        {children}
+      </MainContent>
+      <BottomNav />
+    </LayoutContainer>
+  )
 }
