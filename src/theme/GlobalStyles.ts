@@ -1,76 +1,89 @@
 import { createGlobalStyle } from 'styled-components'
-import { Theme } from './theme'
 
-export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
+export const GlobalStyles = createGlobalStyle`
+  /* ============================================
+     Reset CSS Simples
+     ============================================ */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
 
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* ============================================
+     Configurações Globais
+     ============================================ */
   html {
-    scroll-behavior: smooth;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    font-family: ${props => props.theme.fonts.body};
-    background-color: ${props => props.theme.colors.black};
-    color: ${props => props.theme.colors.white};
+    background: #000000;
+    color: #FFFFFF;
+    font-family: "DM Sans", sans-serif;
     line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: ${props => props.theme.fonts.heading};
-    line-height: 1.2;
-    font-weight: ${props => props.theme.fontWeights.bold};
+  /* ============================================
+     Elementos Base
+     ============================================ */
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    color: inherit;
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+    color: inherit;
   }
 
   a {
     color: inherit;
     text-decoration: none;
-    transition: color ${props => props.theme.transitions.fast};
-  }
-
-  button {
-    font-family: inherit;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    background: none;
-    transition: all ${props => props.theme.transitions.fast};
   }
 
   img {
     max-width: 100%;
-    height: auto;
     display: block;
   }
 
-  input, textarea {
-    font-family: inherit;
-    border: none;
-    outline: none;
-  }
-
-  /* Scrollbar Styling */
+  /* ============================================
+     Scrollbar Minimalista
+     ============================================ */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: ${props => props.theme.colors.darkGray};
+    background: #000000;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: ${props => props.theme.colors.mediumGray};
-    border-radius: ${props => props.theme.borderRadius.sm};
+    background: #333333;
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: ${props => props.theme.colors.lightGray};
+    background: #555555;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #333333 #000000;
   }
 `

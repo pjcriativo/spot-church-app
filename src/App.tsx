@@ -4,6 +4,7 @@ import Profile from './pages/Profile'
 import NowPlaying from './pages/NowPlaying'
 import Playlist from './pages/Playlist'
 import Library from './pages/Library'
+import Search from './pages/Search'
 import './App.css'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/now-playing" element={<NowPlaying />} />
                 <Route path="/playlist" element={<Playlist />} />
                 <Route path="/library" element={<Library />} />
+                <Route path="/search" element={<Search />} />
             </Routes>
         </Router>
     )
