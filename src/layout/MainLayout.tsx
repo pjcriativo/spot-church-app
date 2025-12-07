@@ -1,8 +1,9 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import styled from 'styled-components'
 import BottomNav from '../components/navigation/BottomNav'
 import Sidebar from '../components/navigation/Sidebar'
 import MiniPlayer from '../components/player/MiniPlayer'
+import FullPlayer from '../components/player/FullPlayer'
 import { usePlayer } from '../context/PlayerContext'
 
 const LayoutContainer = styled.div`
@@ -27,6 +28,7 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children }: MainLayoutProps) {
   const { currentTrack } = usePlayer()
+  const [isPlayerExpanded, setIsPlayerExpanded] = useState(false)
 
   return (
     <LayoutContainer>
@@ -34,7 +36,19 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <MainContent>
         {children}
       </MainContent>
-      {currentTrack && <MiniPlayer track={currentTrack} />}
+      {currentTrack && (
+        <>
+          <MiniPlayer
+            track={currentTrack}
+            onExpand={() => setIsPlayerExpanded(true)}
+          />
+          <FullPlayer
+            isOpen={isPlayerExpanded}
+            onClose={() => setIsPlayerExpanded(false)}
+            track={currentTrack}
+          />
+        </>
+      )}
       <BottomNav />
     </LayoutContainer>
   )

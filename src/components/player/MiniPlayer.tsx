@@ -15,6 +15,12 @@ const PlayerContainer = styled.div`
   align-items: center;
   gap: ${props => props.theme.spacing.md};
   z-index: ${props => props.theme.zIndex.sticky};
+  cursor: pointer;
+  transition: all ${props => props.theme.transitions.fast};
+
+  &:hover {
+    background: ${props => props.theme.colors.darkGray};
+  }
 
   @media (min-width: ${props => props.theme.breakpoints.desktop}) {
     bottom: 0;
@@ -43,6 +49,7 @@ const TrackInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${props => props.theme.spacing.xs};
+  pointer-events: none;
 `
 
 const TrackTitle = styled.p`
@@ -75,11 +82,11 @@ const ControlButton = styled.button<{ $isPlaying?: boolean }>`
   height: 36px;
   border-radius: ${props => props.theme.borderRadius.full};
   background: ${props => props.$isPlaying
-        ? props.theme.colors.primary
-        : props.theme.colors.overlay};
+    ? props.theme.colors.primary
+    : props.theme.colors.overlay};
   color: ${props => props.$isPlaying
-        ? props.theme.colors.black
-        : props.theme.colors.white};
+    ? props.theme.colors.black
+    : props.theme.colors.white};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,8 +94,8 @@ const ControlButton = styled.button<{ $isPlaying?: boolean }>`
 
   &:hover {
     box-shadow: ${props => props.$isPlaying
-        ? props.theme.shadow.glow
-        : props.theme.shadow.soft};
+    ? props.theme.shadow.glow
+    : props.theme.shadow.soft};
     transform: scale(1.05);
   }
 
@@ -126,46 +133,49 @@ const SecondaryButton = styled.button`
 `
 
 interface MiniPlayerProps {
-    track?: {
-        title: string
-        artist: string
-        artwork: string
-    }
+  track: {
+    title: string
+    artist: string
+    artwork: string
+  }
+  onExpand: () => void
 }
 
-export default function MiniPlayer({ track }: MiniPlayerProps) {
-    const [isPlaying, setIsPlaying] = useState(false)
+export default function MiniPlayer({ track, onExpand }: MiniPlayerProps) {
+  const [isPlaying, setIsPlaying] = useState(false)
 
-    const defaultTrack = {
-        title: 'Easy',
-        artist: 'Troye Sivan',
-        artwork: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=100&h=100&fit=crop'
-    }
+  const handlePlayPause = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsPlaying(!isPlaying)
+  }
 
-    const currentTrack = track || defaultTrack
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    // Handle next track
+  }
 
-    return (
-        <PlayerContainer>
-            <AlbumCover>
-                <img src={currentTrack.artwork} alt={currentTrack.title} />
-            </AlbumCover>
+  return (
+    <PlayerContainer onClick={onExpand}>
+      <AlbumCover>
+        <img src={track.artwork} alt={track.title} />
+      </AlbumCover>
 
-            <TrackInfo>
-                <TrackTitle>{currentTrack.title}</TrackTitle>
-                <TrackArtist>{currentTrack.artist}</TrackArtist>
-            </TrackInfo>
+      <TrackInfo>
+        <TrackTitle>{track.title}</TrackTitle>
+        <TrackArtist>{track.artist}</TrackArtist>
+      </TrackInfo>
 
-            <Controls>
-                <ControlButton
-                    $isPlaying={isPlaying}
-                    onClick={() => setIsPlaying(!isPlaying)}
-                >
-                    {isPlaying ? <Pause fill="currentColor" /> : <Play fill="currentColor" />}
-                </ControlButton>
-                <SecondaryButton>
-                    <SkipForward />
-                </SecondaryButton>
-            </Controls>
-        </PlayerContainer>
-    )
+      <Controls>
+        <ControlButton
+          $isPlaying={isPlaying}
+          onClick={handlePlayPause}
+        >
+          {isPlaying ? <Pause fill="currentColor" /> : <Play fill="currentColor" />}
+        </ControlButton>
+        <SecondaryButton onClick={handleNext}>
+          <SkipForward />
+        </SecondaryButton>
+      </Controls>
+    </PlayerContainer>
+  )
 }

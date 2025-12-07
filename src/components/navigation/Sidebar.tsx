@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { Home, Search, Library, User, Music } from 'lucide-react'
+import { Home, Search, Library, User, Music, LogOut } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 const SidebarContainer = styled.aside`
   display: none;
@@ -43,7 +44,7 @@ const NavList = styled.nav`
   display: flex;
   flex-direction: column;
   gap: ${props => props.theme.spacing.sm};
-  flex: 1; /* Grow to push player space to bottom */
+  flex: 1;
 `
 
 const NavItem = styled.button<{ $active: boolean }>`
@@ -77,21 +78,54 @@ const NavItem = styled.button<{ $active: boolean }>`
 `
 
 const PlayerSpace = styled.div`
-  height: 80px;
   border-top: 1px solid ${props => props.theme.colors.overlay};
-  margin-top: ${props => props.theme.spacing.lg};
+  padding-top: ${props => props.theme.spacing.lg};
+  display: flex;
+  flex-direction: column;
+  gap: ${props => props.theme.spacing.sm};
+`
+
+const LogoutButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: ${props => props.theme.spacing.md};
+  padding: ${props => props.theme.spacing.md};
+  border-radius: ${props => props.theme.radius.md};
+  background: transparent;
   color: ${props => props.theme.colors.lightGray};
-  font-size: ${props => props.theme.fontSizes.xs};
+  font-family: ${props => props.theme.fonts.primary};
+  font-size: ${props => props.theme.fontSizes.md};
+  font-weight: ${props => props.theme.fontWeights.medium};
+  transition: all ${props => props.theme.transitions.fast};
+  text-align: left;
+
+  &:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #EF4444;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 `
 
 export default function Sidebar() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { signOut, user } = useAuth()
 
   const isActive = (path: string) => location.pathname === path
+
+  const handleLogout = async () => {
+    await signOut()
+    navigate('/login')
+  }
+
+  // Don't show sidebar on auth pages
+  if (!user) {
+    return null
+  }
 
   return (
     <SidebarContainer>
@@ -120,7 +154,10 @@ export default function Sidebar() {
       </NavList>
 
       <PlayerSpace>
-        {/* Player futuro aqui */}
+        <LogoutButton onClick={handleLogout}>
+          <LogOut />
+          <span>Sair</span>
+        </LogoutButton>
       </PlayerSpace>
     </SidebarContainer>
   )

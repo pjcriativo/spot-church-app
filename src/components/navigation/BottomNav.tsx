@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Home, Search, Library, User } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 const Nav = styled.nav`
   position: fixed;
@@ -47,8 +48,14 @@ const NavItem = styled.button<{ $active: boolean }>`
 export default function BottomNav() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { user } = useAuth()
 
   const isActive = (path: string) => location.pathname === path
+
+  // Don't show bottom nav on auth pages
+  if (!user) {
+    return null
+  }
 
   return (
     <Nav>
